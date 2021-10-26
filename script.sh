@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo -n "Type destination path:"
+echo -n "Type temporary destination path (will be deleted at the end):"
 read dstdir
 
 if [ ! -d $dstdir ]
@@ -13,19 +13,23 @@ read pstfile
 
 readpst -o $dstdir $pstfile
 
-echo -n "Type username:"
+echo -n "Type vmail username (/home/vmail/<username>/Maildir):"
 read username
 
 maildir="/home/vmail/$username/Maildir"
+if [ ! -d $maildir ]
+then
+  mkdir $maildir
+fi
 
 for file in `ls $dstdir`
 do
-        echo -n "Do you want to move $file to $maildir [n]?:"
+        echo -n "Do you want to move $file to $maildir [yn]?:"
         read answer1
 
         if [[ $answer1 == "y" ]]
         then
-          echo -n "Type the name of destination folder [$file]:"
+          echo -n "Type the name of destination folder inside $maildir [$file]:"
           read answer2
 
           if [[ $answer2 == "" ]]
@@ -43,4 +47,5 @@ do
          echo "$file was not moved to $maildir"
         fi
 done
+
 rm -Rf $dstdir
