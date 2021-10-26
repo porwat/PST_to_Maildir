@@ -9,8 +9,6 @@
 # Assumes that nothing is trying to modify the mailboxe
 # version 0.00 - first release to the public.
 
-require 'stat.pl';
-
 sub error {
     print STDERR join("\n", @_), "\n";
     exit(1);
